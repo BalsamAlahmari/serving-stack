@@ -1,16 +1,5 @@
 ## W2D3 Containerisation Results
 
-### Predictions
-
-Before building the images, I predicted:
-
-| Prediction | Estimate |
-|---|---:|
-| Final image size (code + CPU PyTorch, no model weights) | ~800 MB |
-| Code edits out of 10 that would re-run `pip install` if `COPY . .` came first | 10/10 |
-| Naive image size before slimming | ~1800 MB |
-| Expected slim image size | ~800 MB |
-
 ### Actual Image Sizes
 
 After building and measuring both images:
