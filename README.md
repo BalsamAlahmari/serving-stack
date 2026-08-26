@@ -107,12 +107,13 @@ Verification step:
 ### Predict
 Before building or running the GPU image, I predict:
 
-/health status on my GPU-less laptop: **ok — the container will use the CPU fallback.**
-128-token generation on laptop CPU: **about 5 tokens/sec.**
-128-token generation on Colab T4 GPU: **about 25 tokens/sec.**
-T4-to-CPU speed ratio: **roughly 5× faster.**
+*  /health status on my GPU-less laptop: **ok — the container will use the CPU fallback.**
+*  128-token generation on laptop CPU: **about 5 tokens/sec.**
+*  128-token generation on Colab T4 GPU: **about 25 tokens/sec.**
+*  T4-to-CPU speed ratio: **roughly 5× faster.**
 
 
 Verification step:
+
 <img width="412" height="75" alt="{9DDDE35A-2480-4D92-AD3D-0EDF854652CD}" src="https://github.com/user-attachments/assets/b84807c5-e0ed-4799-8591-2e46796b4faf" />
 
