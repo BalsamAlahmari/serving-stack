@@ -117,3 +117,10 @@ Verification step:
 
 <img width="412" height="75" alt="{9DDDE35A-2480-4D92-AD3D-0EDF854652CD}" src="https://github.com/user-attachments/assets/b84807c5-e0ed-4799-8591-2e46796b4faf" />
 
+##
+
+| Image    |          Size | Why                                                                               |
+| -------- | ------------: | --------------------------------------------------------------------------------- |
+| `cpu-v1` | `3.43GB`      | CPU-oriented image; no CUDA runtime                                               |
+| `gpu-v1` | `4.6GB`       | Larger because it includes the NVIDIA CUDA runtime and CUDA-enabled PyTorch wheel |
+
