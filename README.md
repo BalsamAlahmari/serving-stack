@@ -101,3 +101,19 @@ The optimized image was **6.26 GB smaller** than the naive image, a reduction of
 Verification step:
 <img width="999" height="190" alt="image" src="https://github.com/user-attachments/assets/bd1e3651-ceb5-4371-bad8-330f7d45bfa0" />
 
+
+## W2D4 GPU image
+
+### Predict
+Before building or running the GPU image, I predict:
+
+*  /health status on my GPU-less laptop: **ok**
+*  128-token generation on laptop CPU: **about 5 tokens/sec**
+*  128-token generation on Colab T4 GPU: **about 25 tokens/sec**
+*  T4-to-CPU speed ratio: **roughly 5× faster**
+
+
+Verification step:
+
+<img width="412" height="75" alt="{9DDDE35A-2480-4D92-AD3D-0EDF854652CD}" src="https://github.com/user-attachments/assets/b84807c5-e0ed-4799-8591-2e46796b4faf" />
+
