@@ -124,3 +124,10 @@ Verification step:
 | `cpu-v1` | `3.43GB`      | CPU-oriented image; no CUDA runtime                                               |
 | `gpu-v1` | `4.6GB`       | Larger because it includes the NVIDIA CUDA runtime and CUDA-enabled PyTorch wheel |
 
+
+## W2D5 compose
+
+Verification step:
+
+<img width="769" height="152" alt="image" src="https://github.com/user-attachments/assets/1dee0d10-05c4-42e2-9cda-3fd2d3af1a72" />
+
