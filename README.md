@@ -114,11 +114,13 @@ T4-to-CPU speed ratio: **roughly 5× faster.**
 
 
 Verification step:
+
 <img width="412" height="75" alt="{9DDDE35A-2480-4D92-AD3D-0EDF854652CD}" src="https://github.com/user-attachments/assets/b84807c5-e0ed-4799-8591-2e46796b4faf" />
 
 ## W2D5 compose
 
 Verification step:
+
 <img width="769" height="152" alt="image" src="https://github.com/user-attachments/assets/1dee0d10-05c4-42e2-9cda-3fd2d3af1a72" />
 
 
