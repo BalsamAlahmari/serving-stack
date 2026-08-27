@@ -16,9 +16,8 @@ from __future__ import annotations
 import os
 import time
 import uuid
-
+from fastapi import FastAPI, Header, HTTPException
 import torch
-from fastapi import FastAPI
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from schemas import (
@@ -31,11 +30,23 @@ from schemas import (
     ResponseMessage,
     Usage,
 )
-
+API_KEY = os.environ.get("API_KEY", "")
+MAX_TOKENS = int(os.environ.get("MAX_TOKENS", "256"))
 MODEL_ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-0.5B-Instruct")
 
 app = FastAPI(title="serving-stack", version="wk2")
+def require_api_key(authorization: str | None = Header(default=None)) -> None:
+    if not API_KEY:
+        return
 
+    expected = f"Bearer {API_KEY}"
+
+    if authorization != expected:
+        raise HTTPException(
+            status_code=401,
+            detail="Unauthorized",
+        )
+    
 # Load once at import time. CPU only this week.
 print(f"loading {MODEL_ID} on cpu ...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
@@ -63,19 +74,11 @@ def health() -> HealthResponse:
 # GET /v1/models  -- TODO
 # ---------------------------------------------------------------------------
 @app.get("/v1/models", response_model=ModelList)
-def list_models() -> ModelList:
-    """List the served model id(s).
+def list_models(
+    authorization: str | None = Header(default=None),
+) -> ModelList:
+    require_api_key(authorization)
 
-    Contract (OpenAI-compatible):
-      response body: {"object": "list", "data": [ {ModelCard}, ... ]}
-      each ModelCard has: id (== MODEL_ID), object == "model", created (unix
-      seconds), owned_by.
-    Week 2 serves exactly one model, so data has one entry: MODEL_ID.
-
-    Build a ModelList from schemas.py and return it. Use int(time.time()) for
-    created.
-    """
-    # TODO: return a ModelList whose single ModelCard.id == MODEL_ID
     return ModelList(
         data=[
             ModelCard(
@@ -90,7 +93,15 @@ def list_models() -> ModelList:
 # POST /v1/chat/completions  -- TODO (non-streaming first)
 # ---------------------------------------------------------------------------
 @app.post("/v1/chat/completions", response_model=ChatCompletionResponse)
-def chat_completions(req: ChatCompletionRequest) -> ChatCompletionResponse:
+def chat_completions(
+    req: ChatCompletionRequest,
+    authorization: str | None = Header(default=None),
+) -> ChatCompletionResponse:
+
+    require_api_key(authorization)
+
+    max_tokens = min(req.max_tokens, MAX_TOKENS)
+
     input_ids = tokenizer.apply_chat_template(
         [m.model_dump() for m in req.messages],
         add_generation_prompt=True,
@@ -103,17 +114,17 @@ def chat_completions(req: ChatCompletionRequest) -> ChatCompletionResponse:
         if req.temperature > 0:
             out = model.generate(
                 input_ids,
-                max_new_tokens=req.max_tokens,
+                max_new_tokens=max_tokens,
                 do_sample=True,
                 temperature=req.temperature,
             )
         else:
             out = model.generate(
                 input_ids,
-                max_new_tokens=req.max_tokens,
+                max_new_tokens=max_tokens,
                 do_sample=False,
             )
-
+            
     new_tokens = out[0][prompt_tokens:]
     completion_tokens = len(new_tokens)
 
